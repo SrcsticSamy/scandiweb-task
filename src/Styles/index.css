@@ -1,0 +1,19 @@
+:root{
+  --light: #F3F3F3;
+  --dark:  #0F0F0F;
+  --primary:  #F6BA1E;
+  font-size: 16px;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body{
+  background-color: var(--light);
+  color: var(--dark);
+  padding-bottom: 50px;
+}
