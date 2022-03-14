@@ -1,25 +1,69 @@
 import React, { Component } from 'react'
 
-import { graphql } from '@apollo/client/react/hoc';
 import { gql } from "@apollo/client"
 
+import { Query } from '@apollo/client/react/components'
+
+import {store} from '../Redux/store';
+
 class ProductDetails extends Component {
+
+  constructor(props){
+    super(props)
+    this.state ={
+      productID: store.getState().productID
+    }
+  }
+
+  componentDidMount(){
+    this.unsubscribe = store.subscribe(()=>{
+      this.setState({productID: store.getState().productID})
+    })
+  }
+
+  componentWillUnmount(){
+    this.unsubscribe()
+  }
+
   render() {
-    console.log(this.props);
+
+    const GET_DATA = gql`{
+      product(id : ${JSON.stringify(this.state.productID)}){
+        name
+        description
+      }
+    }`
+
     return (
-      
-      <div>
-        {!this.props.data.loading && <div>{this.props.data.product.name}</div> }
-      </div>
+      <Query query={GET_DATA}>
+        {
+          ({data, loading, error})=>{
+
+            if(error){
+              return(
+                <>
+                  <h1>An Error Occured.</h1>
+                </>
+              )
+            }
+
+            if(loading){
+              return(
+                <h1>Loading...</h1>
+              )
+            }
+
+            return (
+              <>
+                <h1>{data.product.name}</h1>
+                <div dangerouslySetInnerHTML={{__html: data.product.description}}></div>
+              </>
+            );
+          }
+        }
+      </Query>
     )
   }
 }
 
-const GET_DATA = gql`{
-  product(id : "ps-5"){
-    name
-    description
-  }
-}`
-
-export default graphql(GET_DATA)(ProductDetails);
+export default ProductDetails;
