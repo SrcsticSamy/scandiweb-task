@@ -17,21 +17,21 @@
 
 .productImg{
     width: 100%;
+    object-fit: contain;
     border-radius: 15px 15px 0 0;
-    object-fit: cover;
     display: block;
     margin: auto;
     transition: ease-in-out 150ms;
 }
 
 .details{
-    padding: 10px 20px;
+    padding: 30px 20px;
     position: relative;
 }
 
 .addToBag{
     position: absolute;
-    top: -30px;
+    top: -40px;
     right: 10px;
     border-radius: 100%;
     border: none;
