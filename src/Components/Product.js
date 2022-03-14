@@ -29,9 +29,9 @@ class Product extends Component {
         <div>
           {this.props.data.inStock ? (
             <div className={styles.details}>
-              <h5>{this.props.data.name}</h5>
+              <h4>{this.props.data.name}</h4>
               <div>
-                <span>{this.props.price.amount}{this.props.price.currency.symbol}</span>
+                <span><small>{this.props.price.currency.symbol}</small><b>{this.props.price.amount}</b></span>
                 <button className={styles.addToBag}>
                   <img
                     src={bag}

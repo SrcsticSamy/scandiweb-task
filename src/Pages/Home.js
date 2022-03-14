@@ -20,7 +20,6 @@ class Home extends Component {
   componentDidMount(){
     this.unsubscribe = store.subscribe(()=>{
       this.setState({category: store.getState().category, currency: store.getState().currency})
-      console.log(store.getState());
     })
   }
 

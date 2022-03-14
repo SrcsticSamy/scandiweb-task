@@ -17,3 +17,16 @@ body{
   color: var(--dark);
   padding-bottom: 50px;
 }
+
+button{
+  cursor: pointer;
+  transition: ease-in-out 80ms;
+}
+
+button:hover{
+  transform: scale(1.05);
+}
+
+button:active{
+  transform: scale(1);
+}

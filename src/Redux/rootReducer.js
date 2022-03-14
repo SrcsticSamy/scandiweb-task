@@ -4,6 +4,7 @@ const initialState = {
     category: "all",
     productID: currentID,
     currency: preferredCurrency || "USD",
+    productOptions:{}
 }
 const rootReducer = (state = initialState, action) => {
     if(action.type === "CATEGORY_UPDATE"){
@@ -24,6 +25,13 @@ const rootReducer = (state = initialState, action) => {
         return {
             ...state,
             productID: action.productID
+        }
+    }
+
+    if(action.type === "PRODUCT_OPTIONS_UPDATE"){
+        return {
+            ...state,
+            productOptions: action.productOptions
         }
     }
 
