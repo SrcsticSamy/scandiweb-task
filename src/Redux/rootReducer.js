@@ -4,8 +4,9 @@ const initialState = {
     category: "all",
     productID: currentID,
     currency: preferredCurrency || "USD",
-    productOptions:{}
+    bag: JSON.parse(localStorage.getItem("bag")) || []
 }
+
 const rootReducer = (state = initialState, action) => {
     if(action.type === "CATEGORY_UPDATE"){
         return {
@@ -28,10 +29,10 @@ const rootReducer = (state = initialState, action) => {
         }
     }
 
-    if(action.type === "PRODUCT_OPTIONS_UPDATE"){
+    if(action.type === "ADD_TO_BAG"){
         return {
             ...state,
-            productOptions: action.productOptions
+            bag: [...state.bag, action.product]
         }
     }
 

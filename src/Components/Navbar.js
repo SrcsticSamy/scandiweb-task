@@ -35,34 +35,70 @@ class Navbar extends Component {
   render() {
     return (
       <nav className={styles.navbar}>
-          <Link to="/">
-            <img src={home} alt="home icon" width="38"  className={styles.home}/>
-          </Link>
+        <Link to="/">
+          <img src={home} alt="home icon" width="38" className={styles.home} />
+        </Link>
 
-          <div className={styles.categories}>
-              <span className={styles.category} onClick={()=>this.props.changeCategory("all")}>All</span>
-              <span className={styles.category} onClick={()=>this.props.changeCategory("tech")}>Tech</span>
-              <span className={styles.category} onClick={()=>this.props.changeCategory("clothes")}>Clothes</span>
-          </div>
+        <div className={styles.categories}>
+          <span
+            className={styles.category}
+            onClick={() => this.props.changeCategory("all")}
+          >
+            All
+          </span>
+          <span
+            className={styles.category}
+            onClick={() => this.props.changeCategory("tech")}
+          >
+            Tech
+          </span>
+          <span
+            className={styles.category}
+            onClick={() => this.props.changeCategory("clothes")}
+          >
+            Clothes
+          </span>
+        </div>
 
+        <div className={styles.misc}>
+          <select
+            className={styles.currency}
+            value={this.state.currency}
+            onChange={this.handleCurrency}
+          >
+            <option className={styles.currencyOption} value="USD">
+              USD
+            </option>
+            <option className={styles.currencyOption} value="GBP">
+              GBP
+            </option>
+            <option className={styles.currencyOption} value="AUD">
+              AUD
+            </option>
+            <option className={styles.currencyOption} value="JPY">
+              JPY
+            </option>
+            <option className={styles.currencyOption} value="RUB">
+              RUB
+            </option>
+          </select>
+
+          <button aria-label="show shopping bag button">
+            <Link to="/bag">
+              <img src={bag} alt="shopping bag icon" />
+              <span className={styles.badge}>{this.props.bagItemsCount}</span>
+            </Link>
+          </button>
           
-
-          <div className={styles.misc}>
-              <select className={styles.currency} value={this.state.currency} onChange={this.handleCurrency}>
-                  <option className={styles.currencyOption} value="USD">USD</option>
-                  <option className={styles.currencyOption} value="GBP">GBP</option>
-                  <option className={styles.currencyOption} value="AUD">AUD</option>
-                  <option className={styles.currencyOption} value="JPY">JPY</option>
-                  <option className={styles.currencyOption} value="RUB">RUB</option>
-              </select>
-
-                <button aria-label="show shopping bag button">
-                    <img src={bag} alt="shopping bag icon" />
-                    <span className={styles.badge}>10</span>
-                </button>
-          </div>
+        </div>
       </nav>
-    )
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+  return{
+     bagItemsCount : state.bag.length
   }
 }
 
@@ -73,4 +109,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Navbar)
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

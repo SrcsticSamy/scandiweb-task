@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Choice from '../Components/Choice'
+import ProductOptions from '../Components/ProductOptions'
 import styles from "../Styles/ProductDetails.module.css"
 
 import { gql } from "@apollo/client"
@@ -10,7 +11,6 @@ import {store} from '../Redux/store';
 import { connect } from 'react-redux'
 
 class ProductDetails extends Component {
-
   constructor(props){
     super(props)
     this.state ={
@@ -36,7 +36,6 @@ class ProductDetails extends Component {
   }
 
   render() {
-
     const GET_DATA = gql`{
       product(id : ${JSON.stringify(this.state.productID)}){
         name
@@ -62,28 +61,17 @@ class ProductDetails extends Component {
           }
         }
       }
-    }`
+    }`;
 
     return (
       <Query query={GET_DATA}>
-        {
-          ({data, loading, error})=>{
+        {({data, loading, error})=>{
             
-            if (error) {
-              return (
-                <h1 style={{ textAlign: "center", margin: "10rem" }}>
-                  An Error Occured.
-                </h1>
-              );
-            }
+          if (error) return <h1 style={{ textAlign: "center", margin: "10rem" }}>An Error Occured.</h1>
 
-            if (loading) {
-              return (
-                <h1 style={{ textAlign: "center", margin: "10rem" }}>
-                  Loading...
-                </h1>
-              );
-            } else {
+          if (loading) return <h1 style={{ textAlign: "center", margin: "10rem" }}>Loading...</h1>
+              
+            else {
               const currentCurrencyPrice = data.product.prices.find(currency=> currency.currency.label === this.state.currency)
               const attributes = data.product.attributes
               return (
@@ -94,21 +82,9 @@ class ProductDetails extends Component {
                     <h2>Price: {currentCurrencyPrice.currency.symbol}{currentCurrencyPrice.amount}</h2>  
                     
                     <hr style={{margin:"20px auto", width:"100%"}}/>
-                    {attributes.map(attribute=>{
-                      return(
-                        <div key={attribute.name}>
-                          <h2 key={attribute.name}>{attribute.name}</h2>
-                          {attribute.items.map(item=>{
-                              return ( <Choice onClick={()=>this.props.changeProductOptions({"attribute": item.value})} key={item.id} text={item.displayValue} color={item.value} type={attribute.type}/> )
-                            })}
 
-                        </div>
-                      )
-                    })}
-                    {data.product.inStock? <button className={styles.addtoBag}>ADD TO BAG</button> : <h3>OUT OF STOCK ❌</h3> }
-
-                    
-
+                    <ProductOptions attributes={attributes} inStock={data.product.inStock} name={data.product.name} price={currentCurrencyPrice} />
+                                      
                     <hr style={{margin:"20px auto", width:"100%"}}/>
 
                     <h3>From <b>{data.product.brand}</b></h3>
@@ -134,10 +110,6 @@ class ProductDetails extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return{
-    changeProductOptions: (productOption)=> dispatch({type: "PRODUCT_OPTIONS_UPDATE", productOptions: productOption}),
-  }
-}
 
-export default connect(null, mapDispatchToProps)(ProductDetails);
+
+export default connect(null)(ProductDetails);
