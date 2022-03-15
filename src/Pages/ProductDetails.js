@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Choice from '../Components/Choice'
 import ProductOptions from '../Components/ProductOptions'
 import styles from "../Styles/ProductDetails.module.css"
 

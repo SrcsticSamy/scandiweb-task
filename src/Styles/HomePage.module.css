@@ -1,7 +1,7 @@
 @import url("./index.css");
 
 .container {
-    padding: 0 10%;
+    padding: 0 5%;
     text-align: center;
     font-size: 24px;
 }
@@ -14,6 +14,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    align-items: center;
+    height: max-content;
 }
 
 @media only screen and (max-width: 800px) {

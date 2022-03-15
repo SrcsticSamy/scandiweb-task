@@ -3,17 +3,21 @@ import { Link } from 'react-router-dom'
 import styles from "../Styles/Product.module.css"
 import bag from "../Static/bag.svg"
 
+import ProductOptions from './ProductOptions'
+
 import { connect } from 'react-redux'
 
 class Product extends Component {
-
+  //gets clicked product's id to fetch its data for the PDP
   viewProduct = () => {
     this.props.changeProductID(this.props.data.id)
   }
 
   render() {
+
     return (
       <div className={styles.container}>
+        {/* Product image */}
         <Link to={`/product/${this.props.data.id}`}>
           <img
             src={this.props.data.gallery[0]}
@@ -24,30 +28,24 @@ class Product extends Component {
             onClick={this.viewProduct}
           />
         </Link>
-          
 
-        <div>
-          {this.props.data.inStock ? (
-            <div className={styles.details}>
-              <h4>{this.props.data.name}</h4>
-              <div>
-                <span><small>{this.props.price.currency.symbol}</small><b>{this.props.price.amount}</b></span>
-                <button className={styles.addToBag}>
-                  <img
-                    src={bag}
-                    height="32"
-                    width="32"
-                    alt="shopping bag icon"
-                  />
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className={styles.details}>
-                <h5>{this.props.data.name}</h5>
-                <b style={{color:"red"}}>OUT OF STOCK</b>
-            </div>
-          )}
+        <div className={styles.details}>
+            {/* Product name and price */}
+            <h4>{this.props.data.name}</h4>
+
+            <h5>
+              {this.props.price.currency.symbol}
+              {this.props.price.amount}
+            </h5>
+
+            <hr />
+
+            <ProductOptions
+              attributes={this.props.data.attributes}
+              inStock={this.props.data.inStock}
+              name={this.props.data.name}
+              price={this.props.price}
+            />
         </div>
       </div>
     );

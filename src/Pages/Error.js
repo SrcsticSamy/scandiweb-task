@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import { Link } from 'react-router-dom'
+
 import styles from "../Styles/ErrorPage.module.css"
 
 class Error extends Component {
@@ -10,7 +11,7 @@ class Error extends Component {
 
           <div>
             <h1>404</h1>
-            <h2>There is nothing here.</h2>
+            <h2>There Is Nothing Here.</h2>
           </div>
 
           <Link to="/">

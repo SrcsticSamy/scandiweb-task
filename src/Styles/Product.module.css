@@ -2,11 +2,15 @@
 
 .container{
     background-color: white;
-    height: fit-content;
+    height: max-content;
     width: 100%;
     border-radius: 15px;
     text-align: left;
     transition: ease-in-out 100ms;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .container:hover{
@@ -27,6 +31,18 @@
 .details{
     padding: 30px 20px;
     position: relative;
+}
+
+.details h4{
+    font-size: 1.3em;
+}
+
+.details h5{
+    font-size: 1.1em;
+}
+
+.details b{
+    font-size: 0.7em;
 }
 
 .addToBag{

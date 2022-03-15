@@ -34,7 +34,6 @@ class Home extends Component {
 
       return(
         products.map(product=>{
-
           const currentCurrencyPrice = product.prices.find(currency=> currency.currency.label === this.state.currency)
 
           return <Product data={product} price={currentCurrencyPrice} key={product.id}/>
@@ -72,6 +71,15 @@ const GET_DATA = gql`{
         currency{
           symbol
           label
+        }
+      }
+      attributes{
+        type
+        name
+        items{
+          value
+          displayValue
+          id
         }
       }
     }

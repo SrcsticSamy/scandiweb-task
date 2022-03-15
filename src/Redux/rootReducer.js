@@ -36,6 +36,15 @@ const rootReducer = (state = initialState, action) => {
         }
     }
 
+    if(action.type === "CLEAR_BAG"){
+        return {
+            ...state,
+            bag: []
+        }
+    }
+
+    
+
     //forgetting this next line made me almost quit the task :)
     else return state
 
