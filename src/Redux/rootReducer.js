@@ -30,6 +30,10 @@ const rootReducer = (state = initialState, action) => {
     }
 
     if(action.type === "ADD_TO_BAG"){
+        console.log(state.bag.includes(action.product));
+        
+        localStorage.setItem("bag", JSON.stringify([...state.bag, action.product]))
+
         return {
             ...state,
             bag: [...state.bag, action.product]
@@ -37,9 +41,57 @@ const rootReducer = (state = initialState, action) => {
     }
 
     if(action.type === "CLEAR_BAG"){
+        localStorage.removeItem("bag")
         return {
             ...state,
             bag: []
+        }
+    }
+
+    if(action.type === "QUANTITY_INC"){        
+
+        const newBag = state.bag.map(item=>{
+            if(item.id===action.id){
+                if(item.quantity < 10){
+                    return{
+                        ...item,
+                        quantity: Number(item.quantity)+1
+                    } 
+                } else return item
+                
+
+            } else return item
+        })
+        
+        localStorage.setItem("bag", JSON.stringify(newBag))
+
+        return {
+            ...state,
+            bag: newBag
+        }
+    }
+
+    if(action.type === "QUANTITY_DEC"){        
+
+        const newBag = state.bag.map(item=>{
+            if(item.id===action.id){
+                if(item.quantity > 1){
+                    return{
+                        ...item,
+                        quantity: Number(item.quantity)-1
+                    } 
+                } else return item
+                
+
+            } else return item
+        })
+        
+
+        localStorage.setItem("bag", JSON.stringify(newBag))
+
+        return {
+            ...state,
+            bag: newBag
         }
     }
 

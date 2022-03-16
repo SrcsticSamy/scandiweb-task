@@ -1,14 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import BagItem from '../Components/BagItem'
 
 class Bag extends Component {
   clearBag = () => {
-    localStorage.removeItem("bag")
     this.props.clearBagItems()
   }
+
+
   render() {
+
+    const totalPrices = []
+
     return (
-      <div>
+      <div style={{ padding:"10px 10%"}}>
 
           <button onClick={this.clearBag} 
           style={{margin:"20px auto", padding:"1%", display:"block", height:"max-content", width:"max-content", borderRadius:"10px",
@@ -16,26 +21,27 @@ class Bag extends Component {
             Clear Bag
           </button>
 
-          {this.props.bagItems.map((item, index)=>{
-            return(
+          <div style={{height:"50vh", overflowX:"hidden", overflowY:"scroll"}}>
+            {this.props.bagItems.map(item=>{
+              const currentCurrencyPrice = item.prices.find(currency=> currency.currency.label === this.props.currency)
+              totalPrices.push(Math.ceil(item.quantity * currentCurrencyPrice.amount))
+              
+              return(
 
-              <div style={{border:"2px solid black", margin:"10px", padding:"20px"}} key={index+1}>
-                <h2>{item.name}</h2>
-                <h3>Quantity: {item.quantity}</h3>
+                <BagItem key={item.id} price={currentCurrencyPrice} data={item} />
 
-                {
-                  Object.entries(item.attributes).map(choice=>{
-        
-                    return <span key={choice}>{choice[0]}: <b>{choice[1]}</b> | </span>
-                  })
-                }
+              )
+            })}
+          </div>
 
-                <h3>Price: {Math.ceil(item.price * item.quantity)} {this.props.currency}</h3>
-                
-              </div>
+          <h1>Total Price:
+             
+            {totalPrices.reduce((prev, nxt)=>{
+            return prev+nxt
+          }, 0)} 
+          USD
+          </h1>
 
-            )
-          })}
 
       </div>
     )

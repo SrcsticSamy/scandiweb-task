@@ -22,7 +22,6 @@ class ProductDetails extends Component {
   componentDidMount(){
     this.unsubscribe = store.subscribe(()=>{
       this.setState({productID: store.getState().productID, currency: store.getState().currency})
-      console.log(store.getState());
     })
   }
 
@@ -72,7 +71,6 @@ class ProductDetails extends Component {
               
             else {
               const currentCurrencyPrice = data.product.prices.find(currency=> currency.currency.label === this.state.currency)
-              const attributes = data.product.attributes
               return (
                 <div className={styles.container}>
   
@@ -82,7 +80,7 @@ class ProductDetails extends Component {
                     
                     <hr style={{margin:"20px auto", width:"100%"}}/>
 
-                    <ProductOptions attributes={attributes} inStock={data.product.inStock} name={data.product.name} price={currentCurrencyPrice} />
+                    <ProductOptions data={data.product} />
                                       
                     <hr style={{margin:"20px auto", width:"100%"}}/>
 

@@ -1,0 +1,55 @@
+@import url("./index.css");
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    border: 3px solid white;
+    border-left: 10px solid var(--primary);
+    margin: 10px auto;
+    padding: 1%;
+    background-color: white;
+}
+
+hr{
+    margin: 20px auto;
+}
+
+.container h3{
+    font-weight: 700;
+    font-size: 1.7em;
+    margin: 10px auto;
+}
+
+.productDetails{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.productShowCase{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.productShowCase img {
+    object-fit: cover;
+}
+
+.productQuantity{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.productQuantity button{
+    width: 35px;
+    height: 50px;
+    background-color: var(--primary);
+    border: none;
+    border-radius: 3px;
+    font-size: 20px;
+}

@@ -64,6 +64,7 @@ const GET_DATA = gql`{
     products{
       id
       name
+      brand
       inStock
       gallery
       prices{

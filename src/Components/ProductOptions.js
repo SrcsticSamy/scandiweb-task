@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { store } from '../Redux/store'
 
 class ProductOptions extends Component {
 
@@ -15,27 +14,30 @@ class ProductOptions extends Component {
         }
     }
 
-    componentDidMount(){
-        const obj = {
-            name: this.props.name,
-            price: this.props.price.amount,
-            quantity: 1,
-            attributes: {}
+    createProductObject = () => {
+      const product = {
+        name: this.props.data.name,
+        prices: this.props.data.prices,
+        image: this.props.data.gallery[0],
+        brand: this.props.data.brand,
+        quantity: 1,
+        id: Math.floor(Math.random()*1000),
+        attributes: {}
         }
-        this.props.attributes.forEach(attribute => {
-            obj.attributes[attribute.name] = ""
-        });
-        this.setState({
-            product: obj
-        })
+
+      this.props.data.attributes.forEach(attribute => {
+        product.attributes[attribute.name] = ""
+      });
+
+      this.setState({
+        product: product
+      })
     }
 
-    componentDidUpdate(){
-        store.subscribe(()=>{
-            localStorage.setItem("bag", JSON.stringify(store.getState().bag))
-        })
+    componentDidMount(){
+        this.createProductObject()
     }
-
+ 
     handleChoice = (attributeName, itemID) => {
         this.setState({
             product: {
@@ -50,11 +52,14 @@ class ProductOptions extends Component {
         })
     }
 
-    handleBag = (e) => {
+    handleBag = () => {
       this.props.addtoBag(this.state.product);
       this.setState({
         addToBagMsg: "Added To Your Bag!"
       })
+
+      this.createProductObject()
+
 
       setTimeout(()=>{
         this.setState({
@@ -62,23 +67,6 @@ class ProductOptions extends Component {
         })
       }, 3000)
       
-      // const obj = {
-      //   name: this.props.name,
-      //   price: this.props.price.amount,
-      //   quantity: 1,
-      //   attributes: {},
-      // };
-
-      // this.props.attributes.forEach((attribute) => {
-      //   obj.attributes[attribute.name] = "";
-      // });
-
-
-
-      // this.setState({
-      //   product: obj,
-
-      // });
     }
 
     handleQuantity = (e) =>{
@@ -99,7 +87,7 @@ class ProductOptions extends Component {
 
   render() {
 
-    if(!this.props.inStock){
+    if(!this.props.data.inStock){
       return(
         <h2 style={{color:"red", textAlign:"center"}}>
           OUT OF STOCK ❌
@@ -109,12 +97,12 @@ class ProductOptions extends Component {
       
     return (
       <>
-        {this.props.attributes.map((attribute) => {
+        {this.props.data.attributes.map((attribute) => {
           return (
             <div key={attribute.name}>
 
-              <h6 key={attribute.name}>{attribute.name}: {this.state.product.attributes[attribute.name] || "Choose an option"} </h6>
-
+              <span key={attribute.name}>{attribute.name}: <b>{this.state.product.attributes[attribute.name] || "Choose an option"}</b> </span>
+                <br />
               {attribute.items.map((item) => {
                 return (
                   <button 
