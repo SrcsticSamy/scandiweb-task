@@ -1,36 +1,49 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
-import styles from "../Styles/Navbar.module.css"
-import bag from "../Static/bag.svg"
-import home from "../Static/home.svg"
+import styles from "../Styles/Navbar.module.css";
+import bag from "../Static/bag.svg";
+import home from "../Static/home.svg";
 
-import { connect } from 'react-redux'
-import { store } from '../Redux/store'
+import { connect } from "react-redux";
+import { store } from "../Redux/store";
+import MiniBag from "./MiniBag";
 
 class Navbar extends Component {
-
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
-      currency: store.getState().currency
-    }
+      currency: store.getState().currency,
+      isMiniBagOpen: false,
+    };
   }
 
-  componentDidMount(){
-    this.unsubscribe = store.subscribe(()=>{
-      this.setState({currency: store.getState().currency})
-    })
+  componentDidMount() {
+    this.unsubscribe = store.subscribe(() => {
+      this.setState({ currency: store.getState().currency });
+    });
   }
 
-  componentWillUnmount(){
-    this.unsubscribe()
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   handleCurrency = (e) => {
-    localStorage.setItem("preferredCurrency", e.target.value)
-    this.props.changeCurrency(e.target.value)
-  }
+    localStorage.setItem("preferredCurrency", e.target.value);
+    this.props.changeCurrency(e.target.value);
+  };
+
+  showMiniBag = () => {
+    this.setState({
+      isMiniBagOpen: !this.state.isMiniBagOpen,
+    });
+
+    if (window.location.pathname.split("/")[1] === "bag") {
+      this.setState({
+        isMiniBagOpen: false,
+      });
+    }
+  };
 
   render() {
     return (
@@ -83,30 +96,34 @@ class Navbar extends Component {
             </option>
           </select>
 
-          <button aria-label="show shopping bag button">
-            <Link to="/bag">
-              <img src={bag} alt="shopping bag icon" />
-              <span className={styles.badge}>{this.props.bagItemsCount}</span>
-            </Link>
+          <button
+            onClick={this.showMiniBag}
+            aria-label="show shopping bag button"
+          >
+            <img src={bag} alt="shopping bag icon" />
+            <span className={styles.badge}>{this.props.bagItemsCount}</span>
           </button>
-          
         </div>
+
+        {this.state.isMiniBagOpen && <MiniBag />}
       </nav>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return{
-     bagItemsCount : state.bag.length
-  }
-}
+  return {
+    bagItemsCount: state.bag.length,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
-  return{
-     changeCategory: (category)=> dispatch({type: "CATEGORY_UPDATE", category: category}),
-     changeCurrency: (currency)=> dispatch({type: "CURRENCY_UPDATE", currency: currency}),
-  }
-}
+  return {
+    changeCategory: (category) =>
+      dispatch({ type: "CATEGORY_UPDATE", category: category }),
+    changeCurrency: (currency) =>
+      dispatch({ type: "CURRENCY_UPDATE", currency: currency }),
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar)
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

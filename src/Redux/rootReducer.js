@@ -29,9 +29,7 @@ const rootReducer = (state = initialState, action) => {
         }
     }
 
-    if(action.type === "ADD_TO_BAG"){
-        console.log(state.bag.includes(action.product));
-        
+    if(action.type === "ADD_TO_BAG"){        
         localStorage.setItem("bag", JSON.stringify([...state.bag, action.product]))
 
         return {
@@ -45,6 +43,16 @@ const rootReducer = (state = initialState, action) => {
         return {
             ...state,
             bag: []
+        }
+    }
+
+    if(action.type === "REMOVE_BAG_ITEM"){
+        const newBag = state.bag.filter(bagItem => bagItem.id !== action.id)
+        localStorage.setItem("bag", JSON.stringify(newBag))
+
+        return {
+            ...state,
+            bag: newBag
         }
     }
 
